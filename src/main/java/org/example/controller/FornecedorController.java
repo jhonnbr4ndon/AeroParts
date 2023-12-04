@@ -27,28 +27,32 @@ public class FornecedorController {
     }
 
     @PostMapping
-    public ResponseEntity<Fornecedor> criarFornecedor(@RequestBody Fornecedor fornecedor) {
-        return ResponseEntity.ok(fornecedorService.salvarFornecedor(fornecedor));
+    public ResponseEntity<String> criarFornecedor(@RequestBody Fornecedor fornecedor) {
+        Fornecedor novoFornecedor = fornecedorService.salvarFornecedor(fornecedor);
+        return ResponseEntity.status(201).body("Fornecedor criado com sucesso. ID do Fornecedor: " + novoFornecedor.getId());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Fornecedor> atualizarFornecedor(@PathVariable Long id, @RequestBody Fornecedor fornecedorAtualizado) {
-        Optional<Fornecedor> fornecedoroExistente = fornecedorService.obterFornecedorPorId(id);
+    public ResponseEntity<String> atualizarFornecedor(@PathVariable Long id, @RequestBody Fornecedor fornecedorAtualizado) {
+        Optional<Fornecedor> fornecedorExistente = fornecedorService.obterFornecedorPorId(id);
 
-        if (fornecedoroExistente.isPresent()) {
-            Fornecedor fornecedor = fornecedoroExistente.get();
+        if (fornecedorExistente.isPresent()) {
+            Fornecedor fornecedor = fornecedorExistente.get();
             fornecedor.setNome(fornecedorAtualizado.getNome());
             fornecedor.setEndereco(fornecedorAtualizado.getEndereco());
             fornecedor.setContato(fornecedorAtualizado.getContato());
 
-            return ResponseEntity.ok(fornecedorService.salvarFornecedor(fornecedor));
+            fornecedorService.salvarFornecedor(fornecedor);
+            return ResponseEntity.ok("Fornecedor atualizado com sucesso.");
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public void deletarFornecedor(@PathVariable Long id) {
+    public ResponseEntity<String> deletarFornecedor(@PathVariable Long id) {
         fornecedorService.deletarFornecedor(id);
+        return ResponseEntity.ok("Fornecedor deletado com sucesso.");
     }
+
 }

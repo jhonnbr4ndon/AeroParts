@@ -27,12 +27,13 @@ public class CotacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<Cotacao> criarCotacao(@RequestBody Cotacao cotacao) {
-        return ResponseEntity.ok(cotacaoService.salvarCotacao(cotacao));
+    public ResponseEntity<String> criarCotacao(@RequestBody Cotacao cotacao) {
+        Cotacao novaCotacao = cotacaoService.salvarCotacao(cotacao);
+        return ResponseEntity.status(201).body("Cotacao criada com sucesso. ID da Cotacao: " + novaCotacao.getId());
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity<Cotacao> atualizarCotacao(@PathVariable Long id, @RequestBody Cotacao cotacaoAtualizado) {
+    public ResponseEntity<String> atualizarCotacao(@PathVariable Long id, @RequestBody Cotacao cotacaoAtualizado) {
         Optional<Cotacao> cotacaoExistente = cotacaoService.obterCotacaoPorId(id);
 
         if (cotacaoExistente.isPresent()) {
@@ -40,15 +41,17 @@ public class CotacaoController {
             cotacao.setData(cotacaoAtualizado.getData());
             cotacao.setPreco(cotacaoAtualizado.getPreco());
 
-            return ResponseEntity.ok(cotacaoService.salvarCotacao(cotacao));
+            cotacaoService.salvarCotacao(cotacao);
+            return ResponseEntity.ok("Cotacao atualizada com sucesso.");
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public void deletarCotacao(@PathVariable Long id) {
+    public ResponseEntity<String> deletarCotacao(@PathVariable Long id) {
         cotacaoService.deletarCotacao(id);
+        return ResponseEntity.ok("Cotacao deletada com sucesso.");
     }
 
 }

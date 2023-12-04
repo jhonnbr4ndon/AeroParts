@@ -22,17 +22,18 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<Produto> mostrarUsuarios() {
+    public List<Produto> mostrarProdutos() {
         return produtoService.mostrarProduto();
     }
 
     @PostMapping
-    public ResponseEntity<Produto> criarUsuario(@RequestBody Produto produto) {
-        return ResponseEntity.ok(produtoService.salvarProduto(produto));
+    public ResponseEntity<String> criarProduto(@RequestBody Produto produto) {
+        Produto novoProduto = produtoService.salvarProduto(produto);
+        return ResponseEntity.status(201).body("Produto criado com sucesso. ID do Produto: " + novoProduto.getId());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> atualizarUsuario(@PathVariable Long id, @RequestBody Produto produtoAtualizado) {
+    public ResponseEntity<String> atualizarProduto(@PathVariable Long id, @RequestBody Produto produtoAtualizado) {
         Optional<Produto> produtoExistente = produtoService.obterProdutoPorId(id);
 
         if (produtoExistente.isPresent()) {
@@ -41,14 +42,16 @@ public class ProdutoController {
             produto.setDescricao(produtoAtualizado.getDescricao());
             produto.setPreco(produtoAtualizado.getPreco());
 
-            return ResponseEntity.ok(produtoService.salvarProduto(produto));
+            produtoService.salvarProduto(produto);
+            return ResponseEntity.ok("Produto atualizado com sucesso.");
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public void deletarProduto(@PathVariable Long id) {
+    public ResponseEntity<String> deletarProduto(@PathVariable Long id) {
         produtoService.deletarProduto(id);
+        return ResponseEntity.ok("Produto deletado com sucesso.");
     }
 }

@@ -27,27 +27,30 @@ public class PedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<Pedido> criarPedido(@RequestBody Pedido pedido) {
-        return ResponseEntity.ok(pedidoService.salvarPedido(pedido));
+    public ResponseEntity<String> criarPedido(@RequestBody Pedido pedido) {
+        Pedido novoPedido = pedidoService.salvarPedido(pedido);
+        return ResponseEntity.status(201).body("Pedido criado com sucesso. ID do Pedido: " + novoPedido.getId());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pedido> atualizarPedido(@PathVariable Long id, @RequestBody Pedido pedidoAtualizado) {
-        Optional<Pedido> PedidoExistente = pedidoService.obterPedidoPorId(id);
+    public ResponseEntity<String> atualizarPedido(@PathVariable Long id, @RequestBody Pedido pedidoAtualizado) {
+        Optional<Pedido> pedidoExistente = pedidoService.obterPedidoPorId(id);
 
-        if (PedidoExistente.isPresent()) {
-            Pedido pedido = PedidoExistente.get();
+        if (pedidoExistente.isPresent()) {
+            Pedido pedido = pedidoExistente.get();
             pedido.setData(pedidoAtualizado.getData());
             pedido.setStatus(pedidoAtualizado.getStatus());
 
-            return ResponseEntity.ok(pedidoService.salvarPedido(pedido));
+            pedidoService.salvarPedido(pedido);
+            return ResponseEntity.ok("Pedido atualizado com sucesso.");
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public void deletarPedido(@PathVariable Long id) {
+    public ResponseEntity<String> deletarPedido(@PathVariable Long id) {
         pedidoService.deletarPedido(id);
+        return ResponseEntity.ok("Pedido deletado com sucesso.");
     }
 }

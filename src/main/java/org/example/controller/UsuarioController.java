@@ -18,7 +18,8 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> obterUsuarioPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(usuarioService.obterUsuarioPorId(id).orElse(null));
+        Optional<Usuario> usuario = usuarioService.obterUsuarioPorId(id);
+        return usuario.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
@@ -27,12 +28,13 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.salvarUsuario(usuario));
+    public ResponseEntity<String> criarUsuario(@RequestBody Usuario usuario) {
+        Usuario novoUsuario = usuarioService.salvarUsuario(usuario);
+        return ResponseEntity.status(201).body("Usuario criado com sucesso. ID do Usuario: " + novoUsuario.getId());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioAtualizado) {
+    public ResponseEntity<String> atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioAtualizado) {
         Optional<Usuario> usuarioExistente = usuarioService.obterUsuarioPorId(id);
 
         if (usuarioExistente.isPresent()) {
@@ -41,14 +43,16 @@ public class UsuarioController {
             usuario.setEmail(usuarioAtualizado.getEmail());
             usuario.setSenha(usuarioAtualizado.getSenha());
 
-            return ResponseEntity.ok(usuarioService.salvarUsuario(usuario));
+            usuarioService.salvarUsuario(usuario);
+            return ResponseEntity.ok("Usuario atualizado com sucesso.");
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public void deletarUsuario(@PathVariable Long id) {
+    public ResponseEntity<String> deletarUsuario(@PathVariable Long id) {
         usuarioService.deletarUsuario(id);
+        return ResponseEntity.ok("Usuario deletado com sucesso.");
     }
 }

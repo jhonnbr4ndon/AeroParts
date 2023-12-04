@@ -27,26 +27,29 @@ public class ItemPedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<ItemPedido> criarItemPedido(@RequestBody ItemPedido itemPedido) {
-        return ResponseEntity.ok(itemPedidoService.salvarItemPedido(itemPedido));
+    public ResponseEntity<String> criarItemPedido(@RequestBody ItemPedido itemPedido) {
+        ItemPedido novoItemPedido = itemPedidoService.salvarItemPedido(itemPedido);
+        return ResponseEntity.status(201).body("Item do pedido criado com sucesso. ID do ItemPedido: " + novoItemPedido.getId());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ItemPedido> atualizarItemPedido(@PathVariable Long id, @RequestBody ItemPedido itemPedidoAtualizado) {
+    public ResponseEntity<String> atualizarItemPedido(@PathVariable Long id, @RequestBody ItemPedido itemPedidoAtualizado) {
         Optional<ItemPedido> itemPedidoExistente = itemPedidoService.obterItemPedidoPorId(id);
 
         if (itemPedidoExistente.isPresent()) {
             ItemPedido itemPedido = itemPedidoExistente.get();
             itemPedido.setQuantidade(itemPedidoAtualizado.getQuantidade());
 
-            return ResponseEntity.ok(itemPedidoService.salvarItemPedido(itemPedido));
+            itemPedidoService.salvarItemPedido(itemPedido);
+            return ResponseEntity.ok("Item do pedido atualizado com sucesso.");
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public void deletarItemPedido(@PathVariable Long id) {
+    public ResponseEntity<String> deletarItemPedido(@PathVariable Long id) {
         itemPedidoService.deletarItemPedido(id);
+        return ResponseEntity.ok("Item do pedido deletado com sucesso.");
     }
 }
