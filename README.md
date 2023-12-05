@@ -120,8 +120,7 @@ Isso deve permitir que você execute seu projeto no IntelliJ IDEA. Certifique-se
 
 ## Requisição dos Endpoints do **Postman**
 
-[Uploading AeroParts.postman_collection.json…]()
-
+[Requisicao Endpoints.zip](https://github.com/jhonnbr4ndon/AeroParts/files/13553633/Requisicao.Endpoints.zip)
 
 ## Vídeo de Apresentação
 
