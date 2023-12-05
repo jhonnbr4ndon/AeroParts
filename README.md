@@ -56,7 +56,7 @@ Isso deve permitir que você execute seu projeto no IntelliJ IDEA. Certifique-se
 ## Modelo Relational
 ![image](https://github.com/jhonnbr4ndon/AeroParts/assets/112666523/654fede9-2c02-4780-9a65-5615fa6752b4)
 
-# Documentação da API
+# Documentação dos Endpoints da API
 
 ## Usuario Controller
 
