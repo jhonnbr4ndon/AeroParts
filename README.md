@@ -118,6 +118,9 @@ Isso deve permitir que você execute seu projeto no IntelliJ IDEA. Certifique-se
 | PUT    | /produto/{id}       | Atualizar informações de um produto por ID| `PUT /produto/1` com corpo JSON contendo os dados atualizados|
 | DELETE | /produto/{id}       | Deletar um produto por ID                | `DELETE /produto/1`                                        |
 
+## Requisição dos Endpoints do **Postman**
+
+[Uploading AeroParts.postman_collection.json…]()
 
 
 ## Vídeo de Apresentação
