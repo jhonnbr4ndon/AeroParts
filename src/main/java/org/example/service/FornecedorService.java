@@ -1,8 +1,11 @@
 package org.example.service;
 
+import org.example.controller.dto.FornecedorDTO;
 import org.example.models.Fornecedor;
 import org.example.repository.FornecedorRepository;
+import org.example.service.mapper.FornecedorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,18 +17,34 @@ public class FornecedorService {
     @Autowired
     private FornecedorRepository fornecedorRepository;
 
-    public Optional<Fornecedor> obterFornecedorPorId(Long id) {
-        return fornecedorRepository.findById(id);
-    }
-
-    public List<Fornecedor> mostrarFornecedor() {
-        return fornecedorRepository.findAll();
-    }
-    public Fornecedor salvarFornecedor(Fornecedor fornecedor) {
+    public Fornecedor criarFornecedor(Fornecedor fornecedor) {
         return fornecedorRepository.save(fornecedor);
     }
 
-    public void deletarFornecedor(Long id) {
+    public List<Fornecedor> listarFornecedores() {
+        return fornecedorRepository.findAll();
+    }
+
+    public Fornecedor encontrarFornecedorPorID(Long id) {
+        return fornecedorRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("Fornecedor não encontrado com o ID: " + id));
+    }
+
+   public ResponseEntity<FornecedorDTO> atualizarFornecedor(Long id, FornecedorDTO fornecedorDTO) {
+       Optional<Fornecedor> optionalFornecedor = fornecedorRepository.findById(id);
+       if (optionalFornecedor.isPresent()) {
+           Fornecedor fornecedor = optionalFornecedor.get();
+           fornecedor.setNome(fornecedorDTO.getNome());
+           fornecedor.setEndereco(fornecedorDTO.getEndereco());
+           fornecedor.setContato(fornecedorDTO.getContato());
+           Fornecedor fornecedorAtualizado = fornecedorRepository.save(fornecedor);
+           return ResponseEntity.ok(FornecedorMapper.entityDTO(fornecedorAtualizado));
+       } else {
+           return ResponseEntity.notFound().build();
+       }
+   }
+
+    public void removerFornecedor(Long id) {
         fornecedorRepository.deleteById(id);
     }
 }

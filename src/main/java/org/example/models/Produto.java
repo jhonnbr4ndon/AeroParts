@@ -2,15 +2,9 @@ package org.example.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "produto")
 public class Produto {
@@ -35,4 +29,51 @@ public class Produto {
     @JoinColumn(name = "fornecedor_id")
     private Fornecedor fornecedor;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
+    public List<ItemPedido> getItemPedidos() {
+        return itemPedidos;
+    }
+
+    public void setItemPedidos(List<ItemPedido> itemPedidos) {
+        this.itemPedidos = itemPedidos;
+    }
+
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
 }

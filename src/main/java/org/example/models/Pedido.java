@@ -2,16 +2,10 @@ package org.example.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.sql.Date;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "pedido")
 public class Pedido {
@@ -32,10 +26,58 @@ public class Pedido {
 
     @JsonIgnore
     @OneToMany(mappedBy = "pedido", orphanRemoval = true)
-    private  List<ItemPedido> itemPedidos;
+    private List<ItemPedido> itemPedidos;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cotacao_id")
     private Cotacao cotacao;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<ItemPedido> getItemPedidos() {
+        return itemPedidos;
+    }
+
+    public void setItemPedidos(List<ItemPedido> itemPedidos) {
+        this.itemPedidos = itemPedidos;
+    }
+
+    public Cotacao getCotacao() {
+        return cotacao;
+    }
+
+    public void setCotacao(Cotacao cotacao) {
+        this.cotacao = cotacao;
+    }
 }

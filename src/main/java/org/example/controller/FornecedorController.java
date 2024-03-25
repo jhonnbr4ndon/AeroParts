@@ -1,13 +1,14 @@
 package org.example.controller;
 
+import org.example.controller.dto.FornecedorDTO;
 import org.example.models.Fornecedor;
 import org.example.service.FornecedorService;
+import org.example.service.mapper.FornecedorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/fornecedor")
@@ -16,43 +17,32 @@ public class FornecedorController {
     @Autowired
     private FornecedorService fornecedorService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Fornecedor> obterFornecedorPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(fornecedorService.obterFornecedorPorId(id).orElse(null));
+    @PostMapping
+    public ResponseEntity<FornecedorDTO> criarFornecedor(@RequestBody FornecedorDTO fornecedorDTO) {
+        Fornecedor fornecedor = fornecedorService.criarFornecedor(FornecedorMapper.entity(fornecedorDTO));
+        return ResponseEntity.ok(FornecedorMapper.entityDTO(fornecedor));
     }
 
     @GetMapping
-    public List<Fornecedor> mostrarFornecedores() {
-        return fornecedorService.mostrarFornecedor();
+    public ResponseEntity<List<FornecedorDTO>> listarFornecedores() {
+        List<FornecedorDTO> fornecedorDTO = fornecedorService.listarFornecedores().stream().map(FornecedorMapper::entityDTO).toList();
+        return ResponseEntity.ok(fornecedorDTO);
     }
 
-    @PostMapping
-    public ResponseEntity<String> criarFornecedor(@RequestBody Fornecedor fornecedor) {
-        Fornecedor novoFornecedor = fornecedorService.salvarFornecedor(fornecedor);
-        return ResponseEntity.status(201).body("Fornecedor criado com sucesso. ID do Fornecedor: " + novoFornecedor.getId());
+    @GetMapping("/{id}")
+    public ResponseEntity<FornecedorDTO> encontrarFornecedorPorID(@PathVariable Long id) {
+        Fornecedor fornecedor = fornecedorService.encontrarFornecedorPorID(id);
+        return ResponseEntity.ok(FornecedorMapper.entityDTO(fornecedor));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> atualizarFornecedor(@PathVariable Long id, @RequestBody Fornecedor fornecedorAtualizado) {
-        Optional<Fornecedor> fornecedorExistente = fornecedorService.obterFornecedorPorId(id);
-
-        if (fornecedorExistente.isPresent()) {
-            Fornecedor fornecedor = fornecedorExistente.get();
-            fornecedor.setNome(fornecedorAtualizado.getNome());
-            fornecedor.setEndereco(fornecedorAtualizado.getEndereco());
-            fornecedor.setContato(fornecedorAtualizado.getContato());
-
-            fornecedorService.salvarFornecedor(fornecedor);
-            return ResponseEntity.ok("Fornecedor atualizado com sucesso.");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<FornecedorDTO> atualizarFornecedor(@PathVariable Long id, @RequestBody FornecedorDTO fornecedorDTO) {
+        return fornecedorService.atualizarFornecedor(id, fornecedorDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletarFornecedor(@PathVariable Long id) {
-        fornecedorService.deletarFornecedor(id);
-        return ResponseEntity.ok("Fornecedor deletado com sucesso.");
+    public ResponseEntity<Void> removerFornecedor(@PathVariable Long id) {
+        fornecedorService.removerFornecedor(id);
+        return ResponseEntity.noContent().build();
     }
-
 }
