@@ -3,6 +3,7 @@ package br.com.fiap.service;
 import br.com.fiap.controller.dto.UsuarioDTO;
 import br.com.fiap.repository.UsuarioRepository;
 import br.com.fiap.models.Usuario;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,15 @@ public class UsuarioService {
     public Usuario encontrarUsuarioPorID(Long id) {
         return usuarioRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("Usuário não encontrado com o ID: " + id));
+    }
+
+    @Transactional
+    public Usuario atualizaUsuario(Long id, Usuario usuarioDTO) {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado com o ID: " + id));
+        usuario.setNome(usuarioDTO.getNome());
+        usuario.setEmail(usuarioDTO.getEmail());
+        usuario.setSenha(usuarioDTO.getSenha());
+        return usuario;
     }
 
     public void atualizarUsuario(UsuarioDTO usuarioDTO) {
