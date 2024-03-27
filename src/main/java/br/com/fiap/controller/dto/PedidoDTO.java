@@ -4,8 +4,17 @@ import java.sql.Date;
 
 public class PedidoDTO {
 
+    private Long id;
     private Date data;
     private String status;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Date getData() {
         return data;

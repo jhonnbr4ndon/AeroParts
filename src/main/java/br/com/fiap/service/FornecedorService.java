@@ -30,17 +30,16 @@ public class FornecedorService {
                 orElseThrow(() -> new RuntimeException("Fornecedor não encontrado com o ID: " + id));
     }
 
-   public ResponseEntity<FornecedorDTO> atualizarFornecedor(Long id, FornecedorDTO fornecedorDTO) {
-       Optional<Fornecedor> optionalFornecedor = fornecedorRepository.findById(id);
+   public void atualizarFornecedor(FornecedorDTO fornecedorDTO) {
+       Optional<Fornecedor> optionalFornecedor = fornecedorRepository.findById(fornecedorDTO.getId());
        if (optionalFornecedor.isPresent()) {
            Fornecedor fornecedor = optionalFornecedor.get();
            fornecedor.setNome(fornecedorDTO.getNome());
            fornecedor.setEndereco(fornecedorDTO.getEndereco());
            fornecedor.setContato(fornecedorDTO.getContato());
-           Fornecedor fornecedorAtualizado = fornecedorRepository.save(fornecedor);
-           return ResponseEntity.ok(FornecedorMapper.entityDTO(fornecedorAtualizado));
+           fornecedorRepository.save(fornecedor);
        } else {
-           return ResponseEntity.notFound().build();
+           throw new RuntimeException("Fornecedor não encontrado com o ID: " + fornecedorDTO.getId());
        }
    }
 

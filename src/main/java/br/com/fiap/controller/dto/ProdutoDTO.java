@@ -2,12 +2,21 @@ package br.com.fiap.controller.dto;
 
 public class ProdutoDTO {
 
+    private Long id;
     private String nome;
     private String descricao;
     private Double preco;
 
     public String getNome() {
         return nome;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setNome(String nome) {

@@ -30,17 +30,16 @@ public class ProdutoService {
                 orElseThrow(() -> new RuntimeException("Produto não encontrado com o ID: " + id));
     }
 
-    public ResponseEntity<ProdutoDTO> atualizarProduto(Long id, ProdutoDTO produtoDTO) {
-        Optional<Produto> optionalProduto = produtoRepository.findById(id);
+    public void atualizarProduto(ProdutoDTO produtoDTO) {
+        Optional<Produto> optionalProduto = produtoRepository.findById(produtoDTO.getId());
         if (optionalProduto.isPresent()) {
             Produto produto = optionalProduto.get();
             produto.setNome(produtoDTO.getNome());
             produto.setDescricao(produtoDTO.getDescricao());
             produto.setPreco(produtoDTO.getPreco());
-            Produto produtoAtualizado = produtoRepository.save(produto);
-            return ResponseEntity.ok(ProdutoMapper.entityDTO(produtoAtualizado));
+            produtoRepository.save(produto);
         } else {
-            return ResponseEntity.notFound().build();
+            throw new RuntimeException("Produto não encontrado com o ID: " + produtoDTO.getId());
         }
     }
 

@@ -2,7 +2,16 @@ package br.com.fiap.controller.dto;
 
 public class ItemPedidoDTO {
 
+    private Long id;
     private Integer quantidade;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Integer getQuantidade() {
         return quantidade;

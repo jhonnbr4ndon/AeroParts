@@ -4,8 +4,17 @@ import java.sql.Date;
 
 public class CotacaoDTO {
 
+    private Long id;
     private Date data;
     private Double preco;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Date getData() {
         return data;

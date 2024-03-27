@@ -1,42 +1,67 @@
 package br.com.fiap.controller;
 
+import br.com.fiap.controller.dto.CotacaoDTO;
+import br.com.fiap.models.Cotacao;
 import br.com.fiap.service.CotacaoService;
+import br.com.fiap.service.mapper.CotacaoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Controller
 @RequestMapping("/cotacao")
 public class CotacaoController {
 
     @Autowired
     private CotacaoService cotacaoService;
 
-//    @PostMapping
-//    public ResponseEntity<CotacaoDTO> criarCotacao(@RequestBody CotacaoDTO cotacaoDTO) {
-//        Cotacao cotacao = cotacaoService.criarCotacao(CotacaoMapper.entity(cotacaoDTO));
-//        return ResponseEntity.ok(CotacaoMapper.entityDTO(cotacao));
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity<List<CotacaoDTO>> listarCotacao() {
-//        List<CotacaoDTO> cotacaoDTO = cotacaoService.listarCotacoes().stream().map(CotacaoMapper::entityDTO).toList();
-//        return ResponseEntity.ok(cotacaoDTO);
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<CotacaoDTO> encontrarCotacaoPorID(@PathVariable Long id) {
-//        Cotacao cotacao = cotacaoService.encontrarCotacaoPorID(id);
-//        return ResponseEntity.ok(CotacaoMapper.entityDTO(cotacao));
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<CotacaoDTO> atualizarCotacao(@PathVariable Long id, @RequestBody CotacaoDTO cotacaoDTO) {
-//        return cotacaoService.atualizarCotacao(id, cotacaoDTO);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> removerCotacao(@PathVariable Long id) {
-//        cotacaoService.removerCotacao(id);
-//        return ResponseEntity.noContent().build();
-//    }
+    @PostMapping("/novo")
+    public String criarCotacao(@ModelAttribute CotacaoDTO cotacaoDTO) {
+        cotacaoService.criarCotacao(CotacaoMapper.entity(cotacaoDTO));
+        return "redirect:/cotacao";
+    }
+
+    @GetMapping("/novo")
+    public String formularioNovoCotacao(Model model) {
+        model.addAttribute("cotacaoDTO", new CotacaoDTO());
+        return "/cotacao/cotacaoForm";
+    }
+
+    @GetMapping
+    public String listarCotacao(Model model) {
+        List<CotacaoDTO> cotacaoDTO = cotacaoService.listarCotacoes().stream().map(CotacaoMapper::entityDTO).collect(Collectors.toList());
+        model.addAttribute("cotacaoDTO", cotacaoDTO);
+        return "/cotacao/cotacao";
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CotacaoDTO> encontrarCotacaoPorID(@PathVariable Long id) {
+        Cotacao cotacao = cotacaoService.encontrarCotacaoPorID(id);
+        return ResponseEntity.ok(CotacaoMapper.entityDTO(cotacao));
+    }
+
+    @GetMapping("/editar/{id}")
+    public String formularioEditarCotacao(@PathVariable Long id, Model model) {
+        Cotacao cotacao = cotacaoService.encontrarCotacaoPorID(id);
+        model.addAttribute("cotacaoDTO", CotacaoMapper.entityDTO(cotacao));
+        return "/cotacao/cotacaoEditar";
+    }
+
+    @PostMapping("/update/{id}")
+    public String atualizarCotacao(@PathVariable Long id, @ModelAttribute CotacaoDTO cotacaoDTO) {
+        cotacaoDTO.setId(id);
+        cotacaoService.atualizarCotacao(cotacaoDTO);
+        return "redirect:/cotacao";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String removerCotacao(@PathVariable Long id) {
+        cotacaoService.removerCotacao(id);
+        return "redirect:/cotacao";
+    }
 }

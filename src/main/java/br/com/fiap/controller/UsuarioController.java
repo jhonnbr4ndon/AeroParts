@@ -1,3 +1,4 @@
+
 package br.com.fiap.controller;
 
 import br.com.fiap.controller.dto.UsuarioDTO;
@@ -29,16 +30,14 @@ public class UsuarioController {
     @GetMapping("/novo")
     public String formularioNovoUsuario(Model model) {
         model.addAttribute("usuarioDTO", new UsuarioDTO());
-        return "usuarioForm";
+        return "/usuario/usuarioForm";
     }
 
     @GetMapping
     public String listarUsuarios(Model model) {
-        List<UsuarioDTO> usuarios = usuarioService.listarUsuarios().stream()
-                .map(UsuarioMapper::entityDTO)
-                .collect(Collectors.toList());
-        model.addAttribute("usuarios", usuarios);
-        return "usuario";
+        List<UsuarioDTO> usuarioDTO = usuarioService.listarUsuarios().stream().map(UsuarioMapper::entityDTO).collect(Collectors.toList());
+        model.addAttribute("usuarioDTO", usuarioDTO);
+        return "/usuario/usuario";
     }
 
     @GetMapping("/{id}")
@@ -51,7 +50,7 @@ public class UsuarioController {
     public String formularioEditarUsuario(@PathVariable Long id, Model model) {
         Usuario usuario = usuarioService.encontrarUsuarioPorID(id);
         model.addAttribute("usuarioDTO", UsuarioMapper.entityDTO(usuario));
-        return "usuarioEditar";
+        return "/usuario/usuarioEditar";
     }
 
     @PostMapping("/update/{id}")

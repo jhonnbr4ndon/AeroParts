@@ -30,18 +30,18 @@ public class CotacaoService {
                 orElseThrow(() -> new RuntimeException("Cotação não encontrado com o ID: " + id));
     }
 
-    public ResponseEntity<CotacaoDTO> atualizarCotacao(Long id, CotacaoDTO cotacaoDTO) {
-        Optional<Cotacao> optionalCotacao = cotacaoRepository.findById(id);
+    public void atualizarCotacao(CotacaoDTO cotacaoDTO) {
+        Optional<Cotacao> optionalCotacao = cotacaoRepository.findById(cotacaoDTO.getId());
         if (optionalCotacao.isPresent()) {
             Cotacao cotacao = optionalCotacao.get();
             cotacao.setData(cotacaoDTO.getData());
             cotacao.setPreco(cotacaoDTO.getPreco());
-            Cotacao cotacaoAtualizado = cotacaoRepository.save(cotacao);
-            return ResponseEntity.ok(CotacaoMapper.entityDTO(cotacaoAtualizado));
+            cotacaoRepository.save(cotacao);
         } else {
-            return ResponseEntity.notFound().build();
+            throw new RuntimeException("Cotação não encontrado com o ID: " + cotacaoDTO.getId());
         }
     }
+
     public void removerCotacao(Long id) {
         cotacaoRepository.deleteById(id);
     }

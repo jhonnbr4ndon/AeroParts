@@ -30,15 +30,14 @@ public class ItemPedidoService {
                 orElseThrow(() -> new RuntimeException("ItemPedido não encontrado com o ID: " + id));
     }
 
-    public ResponseEntity<ItemPedidoDTO> atualizarItemPedido(Long id, ItemPedidoDTO itemPedidoDTO) {
-        Optional<ItemPedido> optionalItemPedido = itemPedidoRepository.findById(id);
+    public void atualizarItemPedido(ItemPedidoDTO itemPedidoDTO) {
+        Optional<ItemPedido> optionalItemPedido = itemPedidoRepository.findById(itemPedidoDTO.getId());
         if (optionalItemPedido.isPresent()) {
             ItemPedido itemPedido = optionalItemPedido.get();
             itemPedido.setQuantidade(itemPedidoDTO.getQuantidade());
-            ItemPedido atualizarItemPedido = itemPedidoRepository.save(itemPedido);
-            return ResponseEntity.ok(ItemPedidoMapper.entityDTO(atualizarItemPedido));
+            itemPedidoRepository.save(itemPedido);
         } else {
-            return ResponseEntity.notFound().build();
+            throw new RuntimeException("ItemPedido não encontrado com o ID: " + itemPedidoDTO.getId());
         }
     }
 
