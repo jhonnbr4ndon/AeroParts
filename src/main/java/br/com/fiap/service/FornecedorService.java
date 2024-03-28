@@ -4,6 +4,7 @@ import br.com.fiap.repository.FornecedorRepository;
 import br.com.fiap.controller.dto.FornecedorDTO;
 import br.com.fiap.models.Fornecedor;
 import br.com.fiap.service.mapper.FornecedorMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,14 @@ public class FornecedorService {
     public Fornecedor encontrarFornecedorPorID(Long id) {
         return fornecedorRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("Fornecedor não encontrado com o ID: " + id));
+    }
+    @Transactional
+    public Fornecedor atualizaFornecedor(Long id, Fornecedor fornecedorDTO) {
+        Fornecedor fornecedor = fornecedorRepository.findById(id).orElseThrow(() -> new RuntimeException("Fornecedor não encontrado com o ID: " + id) );
+        fornecedor.setNome(fornecedorDTO.getNome());
+        fornecedor.setEndereco(fornecedorDTO.getEndereco());
+        fornecedor.setContato(fornecedorDTO.getContato());
+        return fornecedor;
     }
 
    public void atualizarFornecedor(FornecedorDTO fornecedorDTO) {

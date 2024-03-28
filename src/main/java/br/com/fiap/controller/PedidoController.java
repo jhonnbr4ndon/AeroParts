@@ -4,6 +4,7 @@ import br.com.fiap.controller.dto.PedidoDTO;
 import br.com.fiap.models.Pedido;
 import br.com.fiap.service.PedidoService;
 import br.com.fiap.service.mapper.PedidoMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,41 @@ public class PedidoController {
 
     @Autowired
     private PedidoService pedidoService;
+
+    // CRUD Completo
+
+    @GetMapping("/lista")
+    public ResponseEntity<List<PedidoDTO>> listaPedidos() {
+        List<PedidoDTO> pedidoDTO = pedidoService.listarPedido().stream().map(PedidoMapper::entityDTO).toList();
+        return ResponseEntity.ok(pedidoDTO);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PedidoDTO> encontrarPedidoPorID(@PathVariable Long id) {
+        Pedido pedido = pedidoService.encontrarPedidoPorID(id);
+        return ResponseEntity.ok(PedidoMapper.entityDTO(pedido));
+    }
+
+    @PostMapping("/criar")
+    public ResponseEntity<PedidoDTO> criarNovoPedido(@Valid @RequestBody PedidoDTO pedidoDTO) {
+        Pedido pedido = pedidoService.criarPedido(PedidoMapper.entity(pedidoDTO));
+        return ResponseEntity.ok(PedidoMapper.entityDTO(pedido));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PedidoDTO> atualizaPedido(@PathVariable Long id, @Valid @RequestBody PedidoDTO pedidoDTO) {
+        Pedido pedido = pedidoService.atualizaPedido(id, PedidoMapper.entity(pedidoDTO));
+        return ResponseEntity.ok(PedidoMapper.entityDTO(pedido));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPedido(@PathVariable Long id) {
+        pedidoService.removerPedido(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    // Aplicação Thymeleaf
 
     @PostMapping("/novo")
     public String criarPedido(@ModelAttribute PedidoDTO pedidoDTO) {
@@ -37,12 +73,6 @@ public class PedidoController {
         List<PedidoDTO> pedidoDTO = pedidoService.listarPedido().stream().map(PedidoMapper::entityDTO).collect(Collectors.toList());
         model.addAttribute("pedidoDTO", pedidoDTO);
         return "/pedido/pedido";
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<PedidoDTO> encontrarPedidoPorID(@PathVariable Long id) {
-        Pedido pedido = pedidoService.encontrarPedidoPorID(id);
-        return ResponseEntity.ok(PedidoMapper.entityDTO(pedido));
     }
 
     @GetMapping("/editar/{id}")

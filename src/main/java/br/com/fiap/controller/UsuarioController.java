@@ -22,7 +22,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    // CRUD COMPLETO
+    // CRUD Completo
 
     @GetMapping("/lista")
     public ResponseEntity<List<UsuarioDTO>> listaUsuarios() {

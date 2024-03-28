@@ -4,6 +4,7 @@ import br.com.fiap.controller.dto.PedidoDTO;
 import br.com.fiap.models.Pedido;
 import br.com.fiap.repository.PedidoRepository;
 import br.com.fiap.service.mapper.PedidoMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,14 @@ public class PedidoService {
     public Pedido encontrarPedidoPorID(Long id) {
         return pedidoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido não encontrado com o ID: " + id));
+    }
+
+    @Transactional
+    public Pedido atualizaPedido(Long id, Pedido pedidoDTO) {
+        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("Pedido não encontrado com o ID: " + id));
+        pedido.setData(pedidoDTO.getData());
+        pedido.setStatus(pedidoDTO.getStatus());
+        return pedido;
     }
 
     public void atualizarPedidos(PedidoDTO pedidoDTO) {
