@@ -1,12 +1,10 @@
 package br.com.fiap.service;
 
 import br.com.fiap.repository.ItemPedidoRepository;
-import br.com.fiap.service.mapper.ItemPedidoMapper;
 import br.com.fiap.controller.dto.ItemPedidoDTO;
 import br.com.fiap.models.ItemPedido;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

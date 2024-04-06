@@ -49,17 +49,17 @@
     <form action="/usuario/novo" method="post" th:object="${usuarioDTO}">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome do Usuário </label>
-            <input type="text" class="form-control" id="nome" name="nome" placeholder="Jhonn Brandon"  th:field="*{nome}" >
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="username"  th:field="*{nome}" >
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">E-mail do Usuário</label>
             <input type="text" class="form-control"
-                   id="email" step="any" name="email" placeholder="jhonnbrandon@gmail.com" th:field="*{email}">
+                   id="email" step="any" name="email" placeholder="username@aeroparts.com.br" th:field="*{email}">
         </div>
         <div class="mb-3">
             <label for="senha" class="form-label">Senha do Usuário</label>
             <input type="text" class="form-control"
-                   id="senha" step="any" name="senha" placeholder="123456789a" th:field="*{senha}">
+                   id="senha" step="any" name="senha" placeholder="123456789" th:field="*{senha}">
         </div>
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>

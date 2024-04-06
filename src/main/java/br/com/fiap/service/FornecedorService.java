@@ -3,10 +3,8 @@ package br.com.fiap.service;
 import br.com.fiap.repository.FornecedorRepository;
 import br.com.fiap.controller.dto.FornecedorDTO;
 import br.com.fiap.models.Fornecedor;
-import br.com.fiap.service.mapper.FornecedorMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
