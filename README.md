@@ -20,6 +20,61 @@ e facilitando o controle e a análise dos dados de aquisição.
 
 [Documentacao_ChallengeAeroparts_IA.pdf](https://github.com/jhonnbr4ndon/AeroParts/files/14912680/Documentacao_ChallengeAeroparts_IA.pdf)
 
+## Introdução
+
+O presente documento visa fornecer uma visão detalhada do projeto desenvolvido pelo nosso
+grupo como parte do desafio proposto pela Level Group. O projeto consiste em um aplicativo
+destinado a facilitar a cotação e aquisição de peças de avião, proporcionando aos usuários uma
+plataforma intuitiva e eficiente para explorar oportunidades de compra no mercado de peças de
+aeronaves.
+
+## Visão Geral do Projeto
+
+O objetivo principal do nosso aplicativo é proporcionar uma experiência simplificada e
+transparente aos usuários, permitindo-lhes visualizar e comparar diversas opções de compra de
+peças de avião. Com uma interface amigável desenvolvida no Android Studio, os usuários têm
+acesso a funcionalidades como cadastro, login e pesquisa de produtos. A API desenvolvida em
+Spring Boot fornece um sistema robusto de gerenciamento de dados, possibilitando o cadastro
+e a consulta de produtos.
+
+## Funcionalidades Principais
+
+1. Cadastro e Login de Usuários: Os usuários podem criar uma conta e efetuar login para
+acessar as funcionalidades do aplicativo, garantindo assim uma experiência
+personalizada.
+2. Visualização de Oportunidades de Compra: O aplicativo permite aos usuários
+explorarem uma variedade de oportunidades de compra de peças de avião, com
+informações detalhadas e imagens dos produtos.
+3. Pesquisa Avançada de Produtos: Os usuários podem realizar pesquisas específicas
+utilizando diversos filtros, como nome do produto, fabricante, categoria, etc., garantindo
+uma experiência de busca otimizada.
+4. Cadastro e Gerenciamento de Produtos (Admin): Através de um painel administrativo,
+os administradores podem cadastrar e gerenciar produtos, incluindo informações como
+nome, descrição, preço, fabricante, etc.
+
+## Arquitetura do Projeto
+
+O projeto foi desenvolvido seguindo uma arquitetura modular e escalável, utilizando tecnologias
+modernas e práticas de desenvolvimento de software. A seguir, estão os principais componentes
+da arquitetura:
+• Frontend (Android Studio): Interface do aplicativo desenvolvida utilizando Android
+Studio, seguindo as diretrizes de design do Material Design.
+• Backend (Spring Boot): API RESTful desenvolvida em Spring Boot, fornecendo endpoints
+para comunicação entre o aplicativo e o banco de dados.
+• Banco de Dados (SQL): Banco de dados relacional utilizado para armazenar informações
+dos usuários e dos produtos, garantindo integridade e consistência dos dados.
+• Integração com AWS Azure para Deploy: O aplicativo foi implantado na nuvem
+utilizando AWS Azure, garantindo escalabilidade, segurança e alta disponibilidade para
+os usuários.
+
+## Conclusão 
+
+O projeto de aplicativo de cotação de compras de peças de avião representa uma solução
+inovadora e eficiente para facilitar as transações no mercado de peças de aeronaves. Com uma
+abordagem centrada no usuário e uma arquitetura robusta, estamos confiantes de que nosso
+aplicativo oferecerá uma experiência de alta qualidade aos usuários, contribuindo para
+simplificar e otimizar o processo de compra de peças de avião.
+
 
 ## Vídeo com a apresentação da aplicação funcionando
 ```
@@ -65,6 +120,8 @@ Isso deve permitir que você execute seu projeto no IntelliJ IDEA. Certifique-se
 
 ## Modelo Relational
 ![image](https://github.com/jhonnbr4ndon/AeroParts/assets/112666523/654fede9-2c02-4780-9a65-5615fa6752b4)
+
+
 
 # Documentação dos Endpoints da API
 
