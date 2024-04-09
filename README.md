@@ -16,6 +16,11 @@ gerenciamento de fornecedores, pedidos e produtos. A automação desse processo
 proporciona maior eficiência, reduzindo o tempo necessário para obter cotações competitivas 
 e facilitando o controle e a análise dos dados de aquisição.
 
+## Documentação
+
+[Documentacao_ChallengeAeroparts_IA.pdf](https://github.com/jhonnbr4ndon/AeroParts/files/14912680/Documentacao_ChallengeAeroparts_IA.pdf)
+
+
 ## Vídeo com a apresentação da aplicação funcionando
 ```
 https://youtu.be/3VqFrZn0DXc
