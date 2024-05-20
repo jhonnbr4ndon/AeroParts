@@ -76,10 +76,16 @@ simplificar e otimizar o processo de compra de peças de avião.
 
 
 ## Vídeo com a apresentação da aplicação funcionando
+
+#Vídeo v1
 ```
 https://youtu.be/3VqFrZn0DXc
 ```
 
+#Vídeo v2
+```
+https://youtu.be/Jp9yHhuhU4s
+```
 ## Instruções para Rodar a Aplicação
 Passo 1: Certifique-se de que você já possui o IntelliJ IDEA instalado e configurado no seu computador. Caso não tenha, você pode baixá-lo no site oficial da JetBrains.
 
