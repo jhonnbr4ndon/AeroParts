@@ -4,6 +4,7 @@ import br.com.fiap.repository.CotacaoRepository;
 import br.com.fiap.controller.dto.CotacaoDTO;
 import br.com.fiap.models.Cotacao;
 import br.com.fiap.service.mapper.CotacaoMapper;
+import br.com.fiap.strategies.cotacao.CotacaoEstrategy;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,19 @@ public class CotacaoService {
 
     @Autowired
     private CotacaoRepository cotacaoRepository;
+
+    @Autowired
+    private CotacaoEstrategy cotacaoEstrategy;
+
+    @Autowired
+    private void setCotacaoEstrategy(CotacaoEstrategy cotacaoEstrategy) {
+        this.cotacaoEstrategy = cotacaoEstrategy;
+    }
+
+    public List<Cotacao> listaOrganizadaCotacao(CotacaoEstrategy strategy) {
+        List<Cotacao> cotacao = cotacaoRepository.findAll();
+        return strategy.organizar(cotacao);
+    }
 
     public Cotacao criarCotacao(Cotacao cotacao) {
         return cotacaoRepository.save(cotacao);

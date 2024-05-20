@@ -4,6 +4,10 @@ import br.com.fiap.controller.dto.ProdutoDTO;
 import br.com.fiap.models.Produto;
 import br.com.fiap.service.ProdutoService;
 import br.com.fiap.service.mapper.ProdutoMapper;
+import br.com.fiap.strategies.produto.NomeProdutoStrategy;
+import br.com.fiap.strategies.produto.PrecoMaiorStrategy;
+import br.com.fiap.strategies.produto.PrecoMenorStrategy;
+import br.com.fiap.strategies.produto.ProdutoStrategy;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +21,31 @@ public class ProdutoController {
 
     @Autowired
     private ProdutoService produtoService;
+
+    //STRATEGIES PRODUTOS
+
+    @GetMapping("/nome-ordenado")
+    public ResponseEntity<List<ProdutoDTO>> listarProdutosPorNome() {
+        ProdutoStrategy strategy = new NomeProdutoStrategy();
+        List<ProdutoDTO> listarNomes = produtoService.listaOrganizadaProdutos(strategy).stream().map(ProdutoMapper::entityDTO).toList();
+        return ResponseEntity.ok(listarNomes);
+    }
+
+    @GetMapping("/preco-menor")
+    public ResponseEntity<List<ProdutoDTO>> listarProdutosPorPrecoMenor() {
+        ProdutoStrategy strategy = new PrecoMenorStrategy();
+        List<ProdutoDTO> listarPreco = produtoService.listaOrganizadaProdutos(strategy).stream().map(ProdutoMapper::entityDTO).toList();
+        return ResponseEntity.ok(listarPreco);
+    }
+
+    @GetMapping("/preco-maior")
+    public ResponseEntity<List<ProdutoDTO>> listarProdutosPorPrecoMaior() {
+        ProdutoStrategy strategy = new PrecoMaiorStrategy();
+        List<ProdutoDTO> listarPreco = produtoService.listaOrganizadaProdutos(strategy).stream().map(ProdutoMapper::entityDTO).toList();
+        return ResponseEntity.ok(listarPreco);
+    }
+
+    //CRUD PRODUTOS
 
     @GetMapping("/lista")
     public ResponseEntity<List<ProdutoDTO>> listaProdutos() {

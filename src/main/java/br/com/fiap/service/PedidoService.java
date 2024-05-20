@@ -4,6 +4,7 @@ import br.com.fiap.controller.dto.PedidoDTO;
 import br.com.fiap.models.Pedido;
 import br.com.fiap.repository.PedidoRepository;
 import br.com.fiap.service.mapper.PedidoMapper;
+import br.com.fiap.strategies.pedido.PedidoStrategy;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,19 @@ public class PedidoService {
 
     @Autowired
     private PedidoRepository pedidoRepository;
+
+    @Autowired
+    private PedidoStrategy pedidoStrategy;
+
+    @Autowired
+    public void setPedidoStrategy(PedidoStrategy pedidoStrategy) {
+        this.pedidoStrategy = pedidoStrategy;
+    }
+
+    public List<Pedido> listaOrganizadaPedido(PedidoStrategy strategy) {
+        List<Pedido> pedidos = pedidoRepository.findAll();
+        return strategy.organizar(pedidos);
+    }
 
     public Pedido criarPedido(Pedido pedido) {
         return pedidoRepository.save(pedido);

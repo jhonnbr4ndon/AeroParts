@@ -4,6 +4,8 @@ import br.com.fiap.controller.dto.FornecedorDTO;
 import br.com.fiap.models.Fornecedor;
 import br.com.fiap.service.FornecedorService;
 import br.com.fiap.service.mapper.FornecedorMapper;
+import br.com.fiap.strategies.fornecedor.FornecedorStrategy;
+import br.com.fiap.strategies.fornecedor.NomeFornecedorStrategy;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,17 @@ public class FornecedorController {
 
     @Autowired
     private FornecedorService fornecedorService;
+
+    //ESTRETEGY USUARIOS
+
+    @GetMapping("/nome-ordenado")
+    public ResponseEntity<List<FornecedorDTO>> listarFornecedorPorNome() {
+        FornecedorStrategy strategy = new NomeFornecedorStrategy();
+        List<FornecedorDTO> listarNomes = fornecedorService.listaOrganizadaForenecedor(strategy).stream().map(FornecedorMapper::entityDTO).toList();
+        return ResponseEntity.ok(listarNomes);
+    }
+
+    //CRUD FORNECEDOR
 
     @GetMapping("/lista")
     public ResponseEntity<List<FornecedorDTO>> listaFornecedor() {

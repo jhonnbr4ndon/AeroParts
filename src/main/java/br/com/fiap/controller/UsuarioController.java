@@ -5,6 +5,8 @@ import br.com.fiap.controller.dto.UsuarioDTO;
 import br.com.fiap.service.UsuarioService;
 import br.com.fiap.models.Usuario;
 import br.com.fiap.service.mapper.UsuarioMapper;
+import br.com.fiap.strategies.usuario.NomeUsuarioStrategy;
+import br.com.fiap.strategies.usuario.UsuarioStrategy;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,17 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    //ESTRETEGY USUARIOS
+
+    @GetMapping("/nome-ordenado")
+    public ResponseEntity<List<UsuarioDTO>> listarUsuariosPorNome() {
+        UsuarioStrategy strategy = new NomeUsuarioStrategy();
+        List<UsuarioDTO> listarNomes = usuarioService.listaOrganizadaUsuarios(strategy).stream().map(UsuarioMapper::entityDTO).toList();
+        return ResponseEntity.ok(listarNomes);
+    }
+
+    //CRUD USUARIOS
 
     @GetMapping("/lista")
     public ResponseEntity<List<UsuarioDTO>> listaUsuarios() {

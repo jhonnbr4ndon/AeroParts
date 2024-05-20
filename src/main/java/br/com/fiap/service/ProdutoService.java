@@ -3,6 +3,7 @@ package br.com.fiap.service;
 import br.com.fiap.controller.dto.ProdutoDTO;
 import br.com.fiap.models.Produto;
 import br.com.fiap.repository.ProdutoRepository;
+import br.com.fiap.strategies.produto.ProdutoStrategy;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,19 @@ public class ProdutoService {
 
     @Autowired
     private ProdutoRepository produtoRepository;
+
+    @Autowired
+    private ProdutoStrategy produtoStrategy;
+
+    @Autowired
+    public void setProdutoStrategy(ProdutoStrategy produtoStrategy) {
+        this.produtoStrategy = produtoStrategy;
+    }
+
+    public List<Produto> listaOrganizadaProdutos(ProdutoStrategy strategy) {
+        List<Produto> produtos = produtoRepository.findAll();
+        return strategy.organizar(produtos);
+    }
 
     public Produto criarProduto(Produto produto) {
         return produtoRepository.save(produto);

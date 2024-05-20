@@ -3,6 +3,7 @@ package br.com.fiap.service;
 import br.com.fiap.controller.dto.UsuarioDTO;
 import br.com.fiap.repository.UsuarioRepository;
 import br.com.fiap.models.Usuario;
+import br.com.fiap.strategies.usuario.UsuarioStrategy;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,19 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UsuarioStrategy usuarioStrategies;
+
+    @Autowired
+    public void setUsuarioStrategy(UsuarioStrategy usuarioStrategy) {
+        this.usuarioStrategies = usuarioStrategy;
+    }
+
+    public List<Usuario> listaOrganizadaUsuarios(UsuarioStrategy strategy) {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        return strategy.organizar(usuarios);
+    }
 
     public Usuario criarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);

@@ -3,6 +3,7 @@ package br.com.fiap.service;
 import br.com.fiap.repository.FornecedorRepository;
 import br.com.fiap.controller.dto.FornecedorDTO;
 import br.com.fiap.models.Fornecedor;
+import br.com.fiap.strategies.fornecedor.FornecedorStrategy;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,19 @@ public class FornecedorService {
 
     @Autowired
     private FornecedorRepository fornecedorRepository;
+
+    @Autowired
+    private FornecedorStrategy fornecedorStrategy;
+
+    @Autowired
+    private void setFornecedorStrategy(FornecedorStrategy fornecedorStrategy) {
+        this.fornecedorStrategy = fornecedorStrategy;
+    }
+
+    public List<Fornecedor> listaOrganizadaForenecedor(FornecedorStrategy strategy) {
+        List<Fornecedor> fornecedors = fornecedorRepository.findAll();
+        return strategy.organizar(fornecedors);
+    }
 
     public Fornecedor criarFornecedor(Fornecedor fornecedor) {
         return fornecedorRepository.save(fornecedor);
