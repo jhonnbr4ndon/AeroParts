@@ -77,12 +77,12 @@ simplificar e otimizar o processo de compra de peças de avião.
 
 ## Vídeo com a apresentação da aplicação funcionando
 
-#Vídeo v1
+#Vídeo Sprint-03
 ```
 https://youtu.be/3VqFrZn0DXc
 ```
 
-#Vídeo v2
+#Vídeo Sprint-04
 ```
 https://youtu.be/Jp9yHhuhU4s
 ```
